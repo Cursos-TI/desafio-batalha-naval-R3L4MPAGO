@@ -1,40 +1,68 @@
 #include <stdio.h>
 
-// Desafio Batalha Naval - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
-// Siga os comentários para implementar cada parte do desafio.
+void habilidade(int matriz[10][10], int pos[2], int forma[3][5]){
 
-int main() {
-    // Nível Novato - Posicionamento dos Navios
-    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
-    // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
-    // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
+    for (int i = 0; i < 3; i++){
+        for (int j = 0; j < 5; j++){
 
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
+            int coluna = pos[0] - 1 + i;
+            int posicao = pos[1] - 2 + j;
 
-    // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
+            if (forma[i][j] == 0){continue;}
+            
+            if (posicao >= 0 && posicao < 10 && coluna >= 0 && coluna < 10){
+                if (matriz[coluna][posicao] == 3){
+                    matriz[coluna][posicao] = 5;
+                } else{
+                    matriz[coluna][posicao] = 1;
+                }
+            }
+        }
+    }
 
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
+}
+
+int main(){
+
+    int matriz[10][10] = {0};
+
+    int forma_cone[3][5] = {
+        {0, 0, 1, 0, 0},
+        {0, 1, 1, 1, 0},
+        {1, 1, 1, 1, 1},
+    };
+
+    int forma_cruz[3][5] = {
+        {0, 0, 1, 0, 0},
+        {1, 1, 1, 1, 1},
+        {0, 0, 1, 0, 0},
+    };
+
+    int forma_octaedro[3][5] = {
+        {0, 0, 1, 0, 0},
+        {0, 1, 1, 1, 0},
+        {0, 0, 1, 0, 0},
+    };
+
+    int pos_1[2] = {2,4}, pos_2[2] = {0,1}, pos_3[2] = {9,3}, pos_4[2] = {7,5};
+
+    int pos_cone[2] = {4,4}, pos_cruz[2] = {8,4}, pos_octaedro[2] = {2,1};
+
+    for (int i = 0; i < 3; i++){matriz[pos_1[0]][pos_1[1] + i] = 3;} // vertical
+    for (int i = 0; i < 3; i++){matriz[pos_2[0] + i][pos_2[1]] = 3;} // horizontal
+    for (int i = 0; i < 3; i++){matriz[pos_3[0] - i][pos_3[1] - i] = 3;}
+    for (int i = 0; i < 3; i++){matriz[pos_4[0] - i][pos_4[1] + i] = 3;}
     
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
-
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
-
-    return 0;
+    habilidade(matriz, pos_cone, forma_cone);
+    habilidade(matriz, pos_cruz, forma_cruz);
+    habilidade(matriz, pos_octaedro, forma_octaedro);
+    
+    printf("\nTabuleiro:\n\n");
+    for (int i = 0; i < 10; i++){
+        for (int j = 0; j < 10; j++){
+            printf("%d ", matriz[i][j]);
+        }
+        printf("\n");
+    }
+    
 }
